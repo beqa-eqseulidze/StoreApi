@@ -9,7 +9,7 @@ namespace Persistance.Common
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseAuditabelEntity
     {
         protected readonly AppDbContext _dbContext;
-        private readonly DbSet<T> _dbSet;
+        protected readonly DbSet<T> _dbSet;
 
         public BaseRepository(AppDbContext dbContext)
         {

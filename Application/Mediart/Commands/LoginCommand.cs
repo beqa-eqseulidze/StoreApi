@@ -1,6 +1,5 @@
 ﻿
-using Application.Common.Interfaces;
-using Application.Interfaces;
+using Domain.Interfaces;
 using Application.TDOs;
 using FluentValidation;
 using MediatR;
@@ -26,15 +25,14 @@ namespace Application.Mediart.Commands
         public async Task<AuthResponseDto> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
             // Simulate user retrieval from a data source
-            var user = await _unitOfWork.Users.GetByEmailAsync(request.Email, cancellationToken);
+            var user = await _unitOfWork.UserRepository.GetUserByEmailAsync(request.Email, cancellationToken);
             if (user is null || !_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
             {
                 throw new UnauthorizedAccessException("Invalid email or password.");
             }
-            var accessToken = _jwtTokenGenerator.GenerateAccessToken(user);
-            var refreshToken = _jwtTokenGenerator.GenerateRefreshToken();
-            var refreshTokenExpiration = DateTimeOffset.UtcNow.AddDays(7); // Example expiration time
-            return new AuthResponseDto(accessToken, refreshToken, refreshTokenExpiration);
+            var jwtToken = _jwtTokenGenerator.GenerateAccessToken(user);
+            var tokenExpiration = DateTimeOffset.UtcNow.AddDays(7); // Example expiration time
+            return new AuthResponseDto(jwtToken, tokenExpiration);
         }
        
     }

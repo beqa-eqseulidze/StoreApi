@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Application.Interfaces;
+using Domain.Interfaces;
 using Domain.Entities;
 
 namespace Infrastructure.Authentication

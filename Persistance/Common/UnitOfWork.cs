@@ -1,4 +1,4 @@
-﻿using Application.Common.Interfaces;
+﻿using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore.Storage;
 using Persistance.Repositories;
 
@@ -8,8 +8,8 @@ namespace Persistance.Common
     {
         private readonly AppDbContext _dbContext = dbContext;
         private IDbContextTransaction? _transaction;
-        public ITaskRepository? _tasks;
-        public ITaskRepository TaskRepository => _tasks ??= new TaskRepository(_dbContext);
+        public IUserRepository? _users;
+        public IUserRepository UserRepository => _users ??= new UserRepository(_dbContext);
 
         public async Task BeginTransactionAsync(CancellationToken ct = default)
         {

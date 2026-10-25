@@ -1,15 +1,11 @@
-﻿using Domain.Common;
-namespace Domain.Interfaces
+﻿namespace Domain.Interfaces
 {
-    public interface IUnitOfWork
+   public interface IUnitOfWork : IDisposable
     {
-        IBaseRepository<TEntity> Repository<TEntity>() where TEntity : BaseAuditabelEntity;
-
-        ITaskRepository Tasks { get; }
-
-        Task<int> SaveChangesAsync(CancellationToken ct = default);
-        Task<BaseAuditabelEntity> BeginTransactionAsync(CancellationToken ct = default);
-        Task<BaseAuditabelEntity> CommitTransactionAsync(CancellationToken ct = default);
-        Task<BaseAuditabelEntity> RollbackTransactionAsync(CancellationToken ct = default);
+        IUserRepository UserRepository { get; }
+        Task SaveChangesAsync(CancellationToken ct = default);
+        Task BeginTransactionAsync(CancellationToken ct = default);
+        Task CommitTransactionAsync(CancellationToken ct = default);
+        Task RollbackTransactionAsync(CancellationToken ct = default);
     }
 }

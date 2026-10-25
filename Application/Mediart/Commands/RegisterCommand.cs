@@ -1,11 +1,7 @@
-﻿using Application.Common.Interfaces;
-using Application.Interfaces;
-using Application.TDOs;
+﻿using Application.TDOs;
+using Domain.Interfaces;
 using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Application.Mediart.Commands
 {
@@ -30,7 +26,7 @@ namespace Application.Mediart.Commands
         public async Task<AuthResponseDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             // Check if the email is already registered
-            var existingUser = await _unitOfWork.Users.GetByEmailAsync(request.Email, cancellationToken);
+            var existingUser = await _unitOfWork.UserRepository.GetUserByEmailAsync(request.Email, cancellationToken);
             if (existingUser != null)
             {
                 throw new InvalidOperationException("Email is already registered.");
@@ -47,12 +43,12 @@ namespace Application.Mediart.Commands
                 Role = Domain.Enums.UserRole.Customer // Default role for new users
             };
             // Add the new user to the database
-            await _unitOfWork.Users.AddAsync(newUser, cancellationToken);
+            await _unitOfWork.UserRepository.AddAsync(newUser, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             // Generate JWT tokens
-            var accessToken = _jwtTokenGenerator.GenerateAccessToken(newUser);
+            var jwtToken = _jwtTokenGenerator.GenerateAccessToken(newUser);
             var tokenExpiration = DateTimeOffset.UtcNow.AddDays(1); // Example expiration time
-            return new AuthResponseDto(accessToken, tokenExpiration);
+            return new AuthResponseDto(jwtToken, tokenExpiration);
         }
     }
 }

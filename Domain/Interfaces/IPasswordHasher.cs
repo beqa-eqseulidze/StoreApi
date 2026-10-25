@@ -1,5 +1,5 @@
 ﻿
-namespace Application.Interfaces
+namespace Domain.Interfaces
 {
     public interface IPasswordHasher
     {
