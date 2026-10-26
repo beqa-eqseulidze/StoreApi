@@ -1,6 +1,7 @@
 using Application;
-using Persistance;
 using Infrastructure;
+using Microsoft.OpenApi;
+using Persistance;
 using Web.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +10,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 //add swagger Ui
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        Description = "Paste your JWT access token."
+    });
+
+    options.AddSecurityRequirement(document =>
+        new OpenApiSecurityRequirement
+        {
+            [new OpenApiSecuritySchemeReference("Bearer", document)] = new List<string>()
+        });
+});
 
 // Add Global Exception Handler
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -36,6 +52,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

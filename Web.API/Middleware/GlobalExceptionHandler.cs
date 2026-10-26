@@ -20,7 +20,14 @@ namespace Web.API.Middleware
                     StatusCodes.Status404NotFound,
                     "Not Found",
                     exception.Message),
-
+                EmailAlreadyRegisteredException => (
+                    StatusCodes.Status400BadRequest,
+                    "Bad Request",
+                    exception.Message),
+                UnauthorizedAccessException => (
+                    StatusCodes.Status401Unauthorized,
+                    "Unauthorized",
+                    exception.Message),
                 _ => (
                     StatusCodes.Status500InternalServerError,
                     "Internal Server Error",

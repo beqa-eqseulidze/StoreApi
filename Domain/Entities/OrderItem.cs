@@ -1,9 +1,10 @@
 ﻿
+using Domain.Common;
+
 namespace Domain.Entities
 {
-    public class OrderItem
-    {
-        public int Id { get; set; }
+    public class OrderItem: BaseAuditabelEntity
+    {       
         public decimal UnitPrice { get; set; }
         public int Quantity { get; set; }
 

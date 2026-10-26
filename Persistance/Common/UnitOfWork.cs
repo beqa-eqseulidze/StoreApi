@@ -8,13 +8,19 @@ namespace Persistance.Common
     {
         private readonly AppDbContext _dbContext = dbContext;
         private IDbContextTransaction? _transaction;
+
+        // Start Repositories region
         public IUserRepository? _users;
         public IUserRepository UserRepository => _users ??= new UserRepository(_dbContext);
+        public ICategoryRepository? _categories;
+        public ICategoryRepository CategoryRepository => _categories ??= new CategoryRepository(_dbContext);
+       
+        // End Repositories region
 
         public async Task BeginTransactionAsync(CancellationToken ct = default)
         {
             _transaction = await _dbContext.Database.BeginTransactionAsync(ct);           
-        }
+        } 
 
         public async Task CommitTransactionAsync(CancellationToken ct = default)
         {

@@ -1,10 +1,10 @@
 ﻿
 using Domain.Interfaces;
-using Application.TDOs;
 using FluentValidation;
 using MediatR;
+using Application.TDOs.Auth;
 
-namespace Application.Mediart.Commands
+namespace Application.Mediart.Commands.Auth
 {
     public record LoginCommand(string Email, string Password) : IRequest<AuthResponseDto>;
 

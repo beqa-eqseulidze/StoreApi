@@ -1,9 +1,12 @@
-﻿using Application.TDOs;
+﻿using Application.Common.Exeptions;
+using Application.TDOs.Auth;
+using Domain.Entities;
+using Domain.Enums;
 using Domain.Interfaces;
 using FluentValidation;
 using MediatR;
 
-namespace Application.Mediart.Commands
+namespace Application.Mediart.Commands.Auth
 {
     public record RegisterCommand( string FirstName, string LastName, string Email, string Password) : IRequest<AuthResponseDto>;
 
@@ -29,18 +32,18 @@ namespace Application.Mediart.Commands
             var existingUser = await _unitOfWork.UserRepository.GetUserByEmailAsync(request.Email, cancellationToken);
             if (existingUser != null)
             {
-                throw new InvalidOperationException("Email is already registered.");
+                throw new EmailAlreadyRegisteredException("Email is already registered.");
             }
             // Hash the password
             var passwordHash = _passwordHasher.HashPassword(request.Password);
             // Create a new user entity
-            var newUser = new Domain.Entities.User
+            var newUser = new User
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Email = request.Email,
                 PasswordHash = passwordHash,
-                Role = Domain.Enums.UserRole.Customer // Default role for new users
+                Role = UserRole.Customer // Default role for new users
             };
             // Add the new user to the database
             await _unitOfWork.UserRepository.AddAsync(newUser, cancellationToken);

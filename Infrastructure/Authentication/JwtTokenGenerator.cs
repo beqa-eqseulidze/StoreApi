@@ -19,10 +19,10 @@ namespace Infrastructure.Authentication
 
             var claims = new[]
             {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.Role.ToString())
-        };
+                new Claim("Id", user.Id.ToString()),
+                new Claim("Email", user.Email),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
+            };
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["JwtSettings:Issuer"],

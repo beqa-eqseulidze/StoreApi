@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Domain.Common;
 
 namespace Domain.Entities
 {
-    public class ProductImage
+    public class ProductImage : BaseAuditabelEntity
     {
-        public int Id { get; set; }
         public string FileName { get; set; } = string.Empty;
         public string FilePath { get; set; } = string.Empty;
         public string ContentType { get; set; } = string.Empty;
