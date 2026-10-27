@@ -19,7 +19,7 @@ namespace Infrastructure.Authentication
 
             var claims = new[]
             {
-                new Claim("Id", user.Id.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), 
                 new Claim("Email", user.Email),
                 new Claim(ClaimTypes.Role, user.Role.ToString())
             };
