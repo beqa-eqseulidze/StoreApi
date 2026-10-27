@@ -1,5 +1,4 @@
-﻿using Application.Common.Exeptions;
-using Domain.Common;
+﻿using Domain.Common;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,9 +18,7 @@ namespace Persistance.Common
 
         public virtual async Task<T?> GetByIdAsync(int id, CancellationToken ct = default)
         {
-            var entity = await _dbSet.FindAsync([id], ct) ?? throw new EntityNotFoundExeption($"Task with Id {id} not found.");
-            _dbSet.Remove(entity);
-            return await _dbSet.FindAsync([id], ct);
+            return await _dbSet.FirstOrDefaultAsync(x => x.Id == id, ct);
         }
 
         public virtual async Task<IQueryable<T>> GetFilteredAsync(CancellationToken ct = default)
@@ -35,9 +32,8 @@ namespace Persistance.Common
             return entity;
         }
 
-        public virtual async Task<T> DeleteAsync(int id, CancellationToken ct = default)
-        {
-            var entity = await _dbSet.FindAsync([id], ct) ?? throw new EntityNotFoundExeption($"Task with Id {id} not found.");
+        public virtual async Task<T?> DeleteAsync(T entity, CancellationToken ct = default)
+        {           
             _dbSet.Remove(entity);
             return entity;
         }

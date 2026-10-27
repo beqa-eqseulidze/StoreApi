@@ -1,4 +1,4 @@
-﻿using Application.TDOs.Category;
+﻿using Application.TDOs.CategoryDto;
 using Domain.Interfaces;
 using FluentValidation;
 using MediatR;

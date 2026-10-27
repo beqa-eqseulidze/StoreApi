@@ -10,4 +10,7 @@
   <Folder Name="/Presentation/">
     <Project Path="Web.API/Web.API.csproj" />
   </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="ASP.NET Core Web API - ფინალური პროექტის გეგმა.md" />
+  </Folder>
 </Solution>

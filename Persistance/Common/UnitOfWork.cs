@@ -14,7 +14,9 @@ namespace Persistance.Common
         public IUserRepository UserRepository => _users ??= new UserRepository(_dbContext);
         public ICategoryRepository? _categories;
         public ICategoryRepository CategoryRepository => _categories ??= new CategoryRepository(_dbContext);
-       
+        public IProductRepository? _products;
+        public IProductRepository ProductRepository => _products ??= new ProductRepository(_dbContext);
+
         // End Repositories region
 
         public async Task BeginTransactionAsync(CancellationToken ct = default)
