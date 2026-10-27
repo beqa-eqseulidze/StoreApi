@@ -13,4 +13,8 @@
   <Folder Name="/Solution Items/">
     <File Path="ASP.NET Core Web API - ფინალური პროექტის გეგმა.md" />
   </Folder>
+  <Folder Name="/Tests/" />
+  <Folder Name="/Tests/TestUnits/">
+    <Project Path="Web.API.Tests/Web.API.Tests.csproj" />
+  </Folder>
 </Solution>
