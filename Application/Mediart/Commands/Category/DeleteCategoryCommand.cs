@@ -1,5 +1,5 @@
 ﻿using Application.Common.Exeptions;
-using Application.TDOs.CategoryDto;
+using Application.TDOs.Categories;
 using Domain.Interfaces;
 using MediatR;
 

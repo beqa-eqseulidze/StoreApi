@@ -1,6 +1,6 @@
 ﻿
 using Domain.Common;
-using Domain.Enums;
+using Domain.Enums.OredrEnums;
 
 namespace Domain.Entities
 {

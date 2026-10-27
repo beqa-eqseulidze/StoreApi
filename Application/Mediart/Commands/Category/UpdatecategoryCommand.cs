@@ -1,13 +1,13 @@
 ﻿using Application.Common.Exeptions;
-using Application.TDOs.CategoryDto;
+using Application.TDOs.Categories;
 using Domain.Interfaces;
 using FluentValidation;
 using MediatR;
 
 namespace Application.Mediart.Commands.Category
 {
-    public record UpdateProductCommand(int Id, string Name, string Description) : IRequest<CategoryDto>;
-    public sealed class UpdatecategoryCommandValidator : AbstractValidator<UpdateProductCommand>
+    public record UpdateCategoryCommand(int Id, string Name, string Description) : IRequest<CategoryDto>;
+    public sealed class UpdatecategoryCommandValidator : AbstractValidator<UpdateCategoryCommand>
     {
         public UpdatecategoryCommandValidator()
         {
@@ -19,10 +19,10 @@ namespace Application.Mediart.Commands.Category
         }
     }
 
-    public sealed class UpdatecategoryCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<UpdateProductCommand, CategoryDto>
+    public sealed class UpdatecategoryCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<UpdateCategoryCommand, CategoryDto>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
-        public async Task<CategoryDto> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
+        public async Task<CategoryDto> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
             var category = await _unitOfWork.CategoryRepository.GetByIdAsync(request.Id, cancellationToken) ?? throw new EntityNotFoundExeption($"Category with ID {request.Id} not found.");
             category.Name = request.Name;

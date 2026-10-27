@@ -1,7 +1,7 @@
 ﻿using Application.Common.Exeptions;
 using Application.TDOs.Auth;
 using Domain.Entities;
-using Domain.Enums;
+using Domain.Enums.UserEnums;
 using Domain.Interfaces;
 using FluentValidation;
 using MediatR;

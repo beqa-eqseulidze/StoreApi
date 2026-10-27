@@ -1,4 +1,4 @@
-﻿using Application.TDOs.CategoryDto;
+﻿using Application.TDOs.Categories;
 using Domain.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

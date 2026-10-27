@@ -1,7 +1,6 @@
-﻿
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace Domain.Enums
+namespace Domain.Enums.UserEnums
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum UserRole

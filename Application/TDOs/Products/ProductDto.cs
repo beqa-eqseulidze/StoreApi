@@ -1,7 +1,6 @@
 ﻿
-using Domain.Entities;
 
-namespace Application.TDOs.ProductDto
+namespace Application.TDOs.Products
 {
     public record ProductDto(
             int Id,

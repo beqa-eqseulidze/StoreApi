@@ -1,7 +1,7 @@
 ﻿using Application.Mediart.Commands.Category;
 using Application.Mediart.Queries.Category;
-using Application.TDOs.CategoryDto;
-using Domain.Enums;
+using Application.TDOs.Categories;
+using Domain.Enums.UserEnums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +23,7 @@ namespace Web.API.Controllers
 
         [HttpPut("Update")]
         [Authorize(Roles = nameof(UserRole.Admin))]
-        public async Task<ActionResult<CategoryDto>> Update([FromBody] UpdateProductCommand category, CancellationToken cancellationToken)
+        public async Task<ActionResult<CategoryDto>> Update([FromBody] UpdateCategoryCommand category, CancellationToken cancellationToken)
         {
             return Ok(await _mediator.Send(category, cancellationToken));
         }

@@ -1,7 +1,6 @@
-﻿
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace Application.Enums
+namespace Domain.Enums.CommonEnums
 {
     [JsonConverter (typeof(JsonStringEnumConverter))]
     public enum SortDirection
