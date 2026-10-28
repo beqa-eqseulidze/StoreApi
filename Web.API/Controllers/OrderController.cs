@@ -1,5 +1,7 @@
 using Application.Mediart.Commands.Order;
+using Application.Mediart.Queries.Order;
 using Application.TDOs.Orders;
+using Domain.Enums.UserEnums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +25,28 @@ namespace Web.API.Controllers
                 Items = orders
             };
             return await _mediator.Send(command, cancellationToken);
+        }
+
+        [HttpGet("GetFiltered")]
+        [Authorize]
+        public async Task<ActionResult<List<OrderDto>>> GetFiltered([FromQuery] GetFilteredOrdersQuery query, CancellationToken cancellationToken)
+        {
+            var isAdmin = User.IsInRole(nameof(UserRole.Admin));
+            var filteredQuery = new GetFilteredOrdersQuery
+            {
+                PageIndex = query.PageIndex,
+                PageSize = query.PageSize,
+                SortBy = query.SortBy,
+                SortOrder = query.SortOrder,
+                UserId = isAdmin? query.UserId : this.GetUserId(),
+                Status = query.Status,
+                OrderDateFrom = query.OrderDateFrom,
+                OrderDateTo = query.OrderDateTo,
+                TotalAmountFrom = query.TotalAmountFrom,
+                TotalAmountTo = query.TotalAmountTo               
+            };
+
+            return Ok(await _mediator.Send(filteredQuery, cancellationToken));
         }
     }
 }

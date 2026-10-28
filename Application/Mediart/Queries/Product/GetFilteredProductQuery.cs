@@ -10,7 +10,7 @@ namespace Application.Mediart.Queries.Product
 {
     public record GetFilteredProductQuery() : IRequest<List<ProductDto>>
     {
-        public const int MaxPageSize = 100;
+            public const int MaxPageSize = 100;
             public int PageIndex { get; init; } = 1;
             public int PageSize { get; init; } = 10;
             public ProductSortFields? SortBy { get; init; }

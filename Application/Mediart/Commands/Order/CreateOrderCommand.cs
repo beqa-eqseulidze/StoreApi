@@ -4,6 +4,7 @@ using Domain.Entities;
 using Domain.Enums.OredrEnums;
 using Domain.Interfaces;
 using FluentValidation;
+using Mapster;
 using MediatR;
 
 namespace Application.Mediart.Commands.Order
@@ -78,13 +79,7 @@ namespace Application.Mediart.Commands.Order
                 OrderDate = order.OrderDate,
                 TotalAmount = order.TotalAmount,
                 Status = order.Status.ToString(),
-                OrderItems = order.OrderItems.Select(oi => new OrderItemDto
-                {
-                    Id = oi.Id,
-                    ProductId = oi.ProductId,
-                    Quantity = oi.Quantity,
-                    UnitPrice = oi.UnitPrice
-                }).ToList()
+                OrderItems = order.OrderItems.Select(oi =>oi.Adapt<OrderItemDto>()).ToList()
             };
         }
 
