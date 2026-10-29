@@ -73,12 +73,11 @@ namespace Application.Mediart.Queries.Product
                 p.Price,
                 p.StockQuantity,
                 p.CategoryId,
-                null,
+                p.ProductImages.Select(img => img.FilePath).ToList(),       // Mapping ImageUrls
                 null,
                 null
             )).ToListAsync();
         }
     }
-
 }
 

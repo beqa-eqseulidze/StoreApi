@@ -40,6 +40,9 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
+// to reach images without controller
+app.UseStaticFiles();
+
 // Add Global Exception Handler
 app.UseExceptionHandler();
 

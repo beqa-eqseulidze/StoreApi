@@ -13,7 +13,7 @@ namespace Domain.Entities
         public int CategoryId { get; set; }
         public Category Category { get; set; } = null!;
 
-        public ICollection<ProductImage> Images { get; set; } = new List<ProductImage>();
+        public ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
         public ICollection<ProductTag> ProductTags { get; set; } = new List<ProductTag>();
         public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }

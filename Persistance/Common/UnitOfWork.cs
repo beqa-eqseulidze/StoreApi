@@ -16,6 +16,8 @@ namespace Persistance.Common
         public ICategoryRepository CategoryRepository => _categories ??= new CategoryRepository(_dbContext);
         public IProductRepository? _products;
         public IProductRepository ProductRepository => _products ??= new ProductRepository(_dbContext);
+        public IProductImageRepository? _productImages;
+        public IProductImageRepository ProductImageRepository => _productImages ??= new ProductImageRepository(_dbContext);
         public IOrderRepository? _orders;
         public IOrderRepository OrderRepository => _orders ??= new OrderRepository(_dbContext);
 
