@@ -2,9 +2,16 @@ using Application;
 using Infrastructure;
 using Microsoft.OpenApi;
 using Persistance;
+using Serilog;
 using Web.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, services, loggerConfiguration) => loggerConfiguration
+    .ReadFrom.Configuration(context.Configuration)
+    .ReadFrom.Services(services)
+    .Enrich.FromLogContext()
+    .Filter.ByIncludingOnly(logEvent => logEvent.Exception is not null));
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -40,11 +47,11 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
-// to reach images without controller
-app.UseStaticFiles();
-
 // Add Global Exception Handler
 app.UseExceptionHandler();
+
+// to reach images without controller
+app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
