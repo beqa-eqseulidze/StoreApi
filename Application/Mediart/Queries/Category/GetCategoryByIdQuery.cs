@@ -2,44 +2,25 @@
 
 using Application.Common.Exeptions;
 using Application.TDOs.Categories;
-using Application.TDOs.Products;
 using Domain.Interfaces;
+using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Mediart.Queries.Category
 {
-    public record GetCategoryByIdQuery(int Id) : IRequest<CategoryDto>;
-    public sealed class GetCategoryByIdQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetCategoryByIdQuery, CategoryDto>
+    public record GetCategoryByIdQuery(int Id) : IRequest<CategoryWithProductsDto>;
+    public sealed class GetCategoryByIdQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetCategoryByIdQuery, CategoryWithProductsDto>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
-        public async Task<CategoryDto> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
+        public async Task<CategoryWithProductsDto> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
         {
             var categories = await _unitOfWork.CategoryRepository.GetFilteredAsync(cancellationToken);
-            var category = await categories
-                .Include(c => c.Products)
-                .FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken)
+            return await categories
+                .Where(category => category.Id == request.Id)
+                .ProjectToType<CategoryWithProductsDto>()
+                .FirstOrDefaultAsync(cancellationToken)
                 ?? throw new EntityNotFoundExeption($"Category with ID {request.Id} not found.");
-
-            return new CategoryDto(
-                            category.Id,
-                            category.Name,
-                            category.Description,
-                            category.Products.Select(p => new ProductDto(
-                                                            p.Id, 
-                                                            p.Name,
-                                                            p.Description,
-                                                            p.Price,
-                                                            p.StockQuantity,
-                                                            p.CategoryId,
-                                                            null,
-                                                            null,
-                                                            null
-                                                            //p.Images?.Select(img => img.Url).ToList(),       // Mapping ImageUrls
-                                                            //p.Tags?.Select(t => t.Name).ToList(),           // Mapping ProductTagNames
-                                                            //p.OrderItems?.Select(oi => oi.Id).ToList()
-                                                            )).ToList()
-                            );
 
         }
     }

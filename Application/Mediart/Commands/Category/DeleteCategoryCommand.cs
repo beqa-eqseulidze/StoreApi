@@ -1,6 +1,7 @@
 ﻿using Application.Common.Exeptions;
 using Application.TDOs.Categories;
 using Domain.Interfaces;
+using Mapster;
 using MediatR;
 
 namespace Application.Mediart.Commands.Category
@@ -14,7 +15,7 @@ namespace Application.Mediart.Commands.Category
             var category = await _unitOfWork.CategoryRepository.GetByIdAsync(request.Id, cancellationToken) ?? throw new EntityNotFoundExeption($"Category with ID {request.Id} not found.");
             await _unitOfWork.CategoryRepository.DeleteAsync(category, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return new CategoryDto(category.Id, category.Name, category.Description);
+            return category.Adapt<CategoryDto>();
         }
     }
 }

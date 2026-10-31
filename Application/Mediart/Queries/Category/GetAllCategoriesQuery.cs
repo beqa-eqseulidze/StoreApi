@@ -14,13 +14,8 @@ namespace Application.Mediart.Queries.Category
         {
             var categories = await _unitOfWork.CategoryRepository.GetFilteredAsync(cancellationToken);
 
-            //ignore products while mapping to CategoryDto, because we don't want to load products in this query
-            var mappingConfig = new TypeAdapterConfig();
-            mappingConfig.NewConfig<Domain.Entities.Category, CategoryDto>()
-                .Ignore(categoryDto => categoryDto.Products);
-
             return await categories
-                .ProjectToType<CategoryDto>(mappingConfig)
+                .ProjectToType<CategoryDto>()
                 .ToListAsync(cancellationToken);
         }
     }

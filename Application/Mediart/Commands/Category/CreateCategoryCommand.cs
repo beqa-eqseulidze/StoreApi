@@ -1,6 +1,7 @@
 ﻿using Application.TDOs.Categories;
 using Domain.Interfaces;
 using FluentValidation;
+using Mapster;
 using MediatR;
 
 namespace Application.Mediart.Commands.Category
@@ -30,7 +31,7 @@ namespace Application.Mediart.Commands.Category
             };
             await _unitOfWork.CategoryRepository.AddAsync(category, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return new CategoryDto(category.Id, category.Name, category.Description);
+            return category.Adapt<CategoryDto>();
         }
     }
 }
