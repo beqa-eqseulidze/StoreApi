@@ -14,7 +14,7 @@ namespace Application.Mediart.Queries.ProductImage
         {
             var productImages = await _unitOfWork.ProductImageRepository.GetFilteredAsync(cancellationToken);
             return await productImages
-                .Where(img => img.ProductId == request.Id && !img.IsDeleted)
+                .Where(img => img.ProductId == request.Id)
                 .ProjectToType<ProductImageDto>()
                 .ToListAsync(cancellationToken);
         }

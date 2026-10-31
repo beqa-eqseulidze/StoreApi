@@ -2,15 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Persistance.Configuration
+namespace Persistance.EntityConfigurations
 {
-    public class UserConfiuration : BaseEntityConfiguration<User>
+    public class UserConfiuration : IEntityTypeConfiguration<User>
     {
-        public override void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<User> builder)
         {
-            // add soft delete configuration from base class
-            base.Configure(builder);
-
             //add table name configuration
             builder.ToTable("Users");
 

@@ -11,8 +11,11 @@ namespace Persistance
         {
             base.OnModelCreating(modelBuilder);
 
-            // ავტომატურად დარეგისტრირდება ყველა IEntityTypeConfiguration მიმდინარე assembly-დან
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());           
+            // Automatically register all IEntityTypeConfiguration implementations from this assembly.
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            // Apply the soft delete query filter to all entities that inhareted form BaseAuditabelEntity and implement ISoftDelete
+            modelBuilder.ApplySoftDeleteQueryFilter();
         }
 
         // SaveChanges-ის წინ ვიძახებთ AddAuditing მეთოდს, რომელიც უზრუნველყოფს soft delete და audit-ის ლოგიკას
