@@ -16,21 +16,21 @@ namespace Web.API.Controllers
 
         [HttpPost("Create")]
         [Authorize(Roles = nameof(UserRole.Admin))]
-        public async Task<ActionResult<CategoryWithProductsDto>> Create([FromBody] CreateCategoryCommand category, CancellationToken cancellationToken)
+        public async Task<ActionResult<CategoryDto>> Create([FromBody] CreateCategoryCommand category, CancellationToken cancellationToken)
         {
             return Ok(await _mediator.Send(category, cancellationToken));
         }
 
         [HttpPut("Update")]
         [Authorize(Roles = nameof(UserRole.Admin))]
-        public async Task<ActionResult<CategoryWithProductsDto>> Update([FromBody] UpdateCategoryCommand category, CancellationToken cancellationToken)
+        public async Task<ActionResult<CategoryDto>> Update([FromBody] UpdateCategoryCommand category, CancellationToken cancellationToken)
         {
             return Ok(await _mediator.Send(category, cancellationToken));
         }
 
         [HttpDelete("Delete/{id}")]
         [Authorize(Roles = nameof(UserRole.Admin))]
-        public async Task<ActionResult<CategoryWithProductsDto>> Delete([FromRoute] int id, CancellationToken cancellationToken)
+        public async Task<ActionResult<CategoryDto>> Delete([FromRoute] int id, CancellationToken cancellationToken)
         {
             return Ok(await _mediator.Send(new DeleteProductCommand(id), cancellationToken));
         }
@@ -42,7 +42,7 @@ namespace Web.API.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult<List<CategoryWithProductsDto>>> GetAll( CancellationToken cancellationToken)
+        public async Task<ActionResult<List<CategoryDto>>> GetAll( CancellationToken cancellationToken)
         {
             return Ok(await _mediator.Send(new GetAllCategoriesQuery(), cancellationToken));
         }
