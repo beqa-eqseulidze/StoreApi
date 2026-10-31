@@ -1,5 +1,6 @@
 ﻿using Application.TDOs.Categories;
 using Domain.Interfaces;
+using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,9 +13,15 @@ namespace Application.Mediart.Queries.Category
         public async Task<List<CategoryDto>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
         {
             var categories = await _unitOfWork.CategoryRepository.GetFilteredAsync(cancellationToken);
+
+            //ignore products while mapping to CategoryDto, because we don't want to load products in this query
+            var mappingConfig = new TypeAdapterConfig();
+            mappingConfig.NewConfig<Domain.Entities.Category, CategoryDto>()
+                .Ignore(categoryDto => categoryDto.Products);
+
             return await categories
-                .Select(c => new CategoryDto(c.Id, c.Name, c.Description))
-                .ToListAsync(cancellationToken);           
+                .ProjectToType<CategoryDto>(mappingConfig)
+                .ToListAsync(cancellationToken);
         }
     }
 }
